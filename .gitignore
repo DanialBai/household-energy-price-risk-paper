@@ -1,0 +1,44 @@
+.tectonic-cache/
+tools/tectonic/
+tools/tectonic.zip
+build/*
+!build/*.pdf
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.xdv
+*.spl
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+
+# Generated and exploratory outputs
+outputs/
+test_outputs/
+temp/
+scratch/
+
+# Local backups
+data/backups/
+
+# Development-only scripts
+scripts/dev/
+
+# Caches and logs
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.tmp
+
+# Office/editor temporary files
+~$*
+Thumbs.db
+.DS_Store

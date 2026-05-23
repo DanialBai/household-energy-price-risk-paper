@@ -1,0 +1,19 @@
+\section{Methods}
+
+The modelling pipeline links building stock, household or archetype assignment, required energy demand, tariffs, fuel-price shocks, intervention scenarios, and spatial-distributional outputs.
+
+\subsection{Income and Required Energy Cost}
+
+The current income module estimates an LSOA-level lognormal income distribution:
+\begin{equation}
+Y_l \sim \operatorname{Lognormal}(\mu_l, \sigma_l^2),
+\end{equation}
+anchored to MSOA after-housing-cost income and shaped by LSOA income deprivation. Property-level required energy cost is estimated from SAP and floor area, then converted into burden probabilities such as the probability that required energy cost exceeds 10 percent of residual income.
+
+\subsection{Price-Shock Risk Metrics}
+
+The next modelling layer will define gas, electricity, combined fuel, standing-charge, and policy-mitigation scenarios. Candidate outputs include baseline energy burden, shock-after energy burden, burden uplift, threshold-crossing risk, affordability gap-at-risk, and Household Fuel Price-at-Risk.
+
+\subsection{Intervention Engine}
+
+Intervention scenarios will modify required energy demand, fuel structure, and tariff exposure. The core comparison is before versus after intervention, with results stratified by dwelling type, heating system, tenure, income distribution, EPC rating, and heritage or leasehold constraint.
