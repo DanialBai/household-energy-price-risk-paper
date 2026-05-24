@@ -1,137 +1,173 @@
 # Project Mission
 
-This project develops a high-quality journal paper on **UK household fuel price risk**, with Westminster, London as the empirical case. The paper reframes household energy inequality from a static problem of current `fuel poverty` into a dynamic problem of **uneven household exposure to fossil-fuel price volatility**.
+This repository is for writing a high-quality English-language journal article on **household fuel price risk** and the uneven protective value of domestic net zero interventions, using Westminster, London as the empirical case.
 
-The empirical ambition is property-level or property-archetype modelling to estimate how domestic interventions — fabric retrofit, systems upgrades, clean heat, solar PV, battery storage, smart tariffs, and flexibility — change household risk before and after implementation.
+The project is currently a manuscript-writing repository, not a full data-production repository. Treat it as the place where the argument, literature positioning, conceptual framework, methods narrative, expected outputs, figures, and final paper are developed in a clean LaTeX workflow.
 
-The intended contribution is not simply to show that retrofit or net zero reduces emissions. It is to evaluate whether, how, and for whom domestic low-carbon interventions provide credible **household risk protection** against future fuel price shocks.
+The working title is:
 
-# Central Thesis
+> Household Fuel Price Risk and the Uneven Protective Value of Domestic Net Zero: Evidence from Westminster, London
 
-> Fuel poverty identifies current hardship. Household fuel price risk identifies future exposure to price shocks. Net zero determines who receives protection.
+# Core Thesis
 
-> Domestic net zero interventions do not automatically de-risk households from fossil-fuel price volatility. They reduce unequal price exposure only when housing fabric improvements, low-carbon heat, distributed generation, flexibility, tariff design, market reform, and tenure-sensitive governance are aligned.
+Fuel poverty identifies current affordability hardship. Household fuel price risk identifies future exposure to fuel price shocks. Domestic net zero determines who receives protection only when technology, housing fabric, tariff design, market structure, tenure, and governance align.
 
-Treat net zero interventions as **conditional household de-risking tools**, not automatic bill-reduction devices.
+Do **not** write as if retrofit, heat pumps, electrification, PV, batteries, smart tariffs, or flexibility automatically reduce household risk. The paper's contribution is to evaluate domestic net zero interventions as **conditional household de-risking tools**, not as automatic bill-reduction or emissions-reduction devices.
 
-# Research Questions
+# Central Research Question
 
-**Central RQ:** To what extent, and under what housing, market, and governance conditions, do domestic net zero interventions reduce unequal household exposure to fossil-fuel price volatility in Westminster?
+To what extent, and under what housing, market, and governance conditions, do domestic net zero interventions reduce unequal household exposure to fossil-fuel price volatility in Westminster?
 
-1. **Who is most exposed?** — Which household-dwelling types face the largest required energy burden increase under fuel price shocks?
-2. **Why are they exposed?** — How do income, fabric, heating system, tenure, and vulnerability jointly produce risk?
-3. **Can interventions de-risk?** — How much risk reduction do retrofit, clean heat, PV, battery, smart tariffs, and integrated packages deliver, and for whom?
+The three linked questions are:
 
-For full RQ framing and contribution language, read `materials/DP8.md` or `materials/Westminster_Fuel_Risk_RQ_Contribution_Methodology.md`.
+1. Which household-dwelling types face the largest required energy burden increase under fuel price shocks?
+2. How do income, housing fabric, heating system, tenure, and vulnerability jointly produce household fuel price risk?
+3. How much risk reduction do retrofit, clean heat, PV, battery storage, smart tariffs, and integrated packages deliver, and for whom?
 
-# Core Concepts (Never Conflate These)
+# Conceptual Guardrails
 
-| Concept | Role in this project |
-|---------|---------------------|
-| **Fuel poverty** | Current affordability hardship under present prices and required energy needs |
-| **Energy burden** | Required (or actual) energy cost / residual household income |
-| **Household fuel price risk** | Future exposure, sensitivity, and limited adaptive capacity under price shock scenarios |
+Never conflate these concepts:
+
+| Concept | Meaning in this paper |
+|---------|-----------------------|
+| Fuel poverty | Current affordability hardship under present prices and required energy needs |
+| Energy burden | Required or actual energy cost divided by residual household income |
+| Household fuel price risk | Future exposure, sensitivity, and limited adaptive capacity under price-shock scenarios |
+
+Use this conceptual formula as a guide, not as a finished econometric specification:
 
 ```text
 Household fuel price risk = exposure + sensitivity - adaptive capacity
 ```
 
+Keep these distinctions visible throughout the manuscript:
+
+- Fuel poverty is a present-tense condition; fuel price risk is a future-facing exposure.
+- Required energy demand is analytically preferable to actual consumption where underheating or self-rationing may exist.
+- Decarbonisation is not the same as de-risking.
+- Electrification can reduce emissions before it reduces household price risk if electricity prices remain gas-linked.
+- The electricity/gas price ratio matters for heat pump risk outcomes.
+- Westminster's private rented sector, leasehold flats, heritage constraints, high housing costs, and social housing pathways are not background details; they are causal mechanisms.
+
+# Manuscript Structure
+
+The main LaTeX entry point is `main.tex`. Section files live in `sections/`.
+
+| File | Role |
+|------|------|
+| `sections/01_introduction.tex` | Motivation, research gap, research questions, contribution |
+| `sections/02_conceptual_framework.tex` | Conceptual distinction between fuel poverty, energy burden, and household fuel price risk |
+| `sections/03_case_and_data.tex` | Westminster case, data logic, unit of analysis, empirical constraints |
+| `sections/04_methods.tex` | Modelling strategy, risk metrics, price shocks, intervention scenarios |
+| `sections/05_expected_outputs.tex` | Tables, figures, maps, distributional outputs, expected empirical products |
+| `sections/06_discussion.tex` | Interpretation, policy relevance, limits of domestic net zero as risk protection |
+| `sections/07_conclusion.tex` | Contribution, implications, future research |
+
+When editing one section, check adjacent sections for repetition and argumentative continuity.
+
+# Writing Standard
+
+Write for a serious international journal audience in energy policy, urban studies, housing studies, climate policy, or energy justice.
+
+Use polished academic English. The tone should be precise, analytical, and publication-ready. Avoid generic policy-note phrasing, overclaiming, and slogans.
+
+Preferred style:
+
+- Lead with the argument, not with broad background.
+- Make causal mechanisms explicit.
+- Use topic sentences that advance the paper's thesis.
+- Distinguish what the paper demonstrates, what it proposes to estimate, and what remains a limitation.
+- Treat Westminster as an analytically revealing case, not just a convenient location.
+- Avoid unsupported claims about policy effectiveness.
+- Avoid saying an intervention "reduces bills" or "protects households" unless the condition, mechanism, and affected group are specified.
+
+When improving prose, preserve the paper's intellectual spine:
+
 ```text
-Decarbonisation is not the same as de-risking.
+current hardship -> future exposure -> conditional protection -> uneven distribution
 ```
 
-Electricity decarbonisation may reduce system emissions before it reduces household price risk where GB wholesale electricity remains gas-linked. See `materials/DP2.md` and `materials/DP4.md` for conceptual and market detail.
+# Evidence and Citation Rules
 
-**Modelling principle:** use **required energy demand**, not only actual consumption. Actual use may understate unmet need through underheating or self-rationing.
+Do not invent citations, statistics, policy details, or empirical results.
 
-# Empirical Strategy
+Use `references.bib` for cited literature. If a claim requires support and the reference is not yet available, either:
 
-Unit of analysis: **property or household-dwelling pair**. Where household data are unavailable, use property records with synthetic household or archetype assignment. Aggregate to LSOA, MSOA, ward, tenure, or dwelling type for interpretation.
+- add a clear placeholder comment in LaTeX, or
+- flag the missing source in your response.
 
-```text
-Building stock layer
-    -> Household or archetype assignment
-    -> Required energy demand model
-    -> Tariff and price engine
-    -> Fuel price shock scenario engine
-    -> Intervention engine
-    -> Fuel poverty, burden, and risk metrics
-    -> Spatial maps and distributional outputs
-```
+For current UK policy, tariff, market-design, or fuel-price claims, verify the information before writing definitive text. Include concrete dates where timing matters.
 
-For intervention packages, metric formulas, shock scenarios, Westminster case detail, and expected outputs, read `materials/DP3.md`, `materials/DP5.md`, and `materials/DP6.md` before modelling or writing tasks.
+When importing material from another project, keep provenance:
 
-# Current Modelling Status
+- Markdown stage summaries go in `materials/phase-summaries/`.
+- Original or lightly renamed candidate images go in `assets/images/source/`.
+- Selected candidate images go in `assets/images/selected/`.
+- Final manuscript figures referenced by LaTeX go in `paper/figures/`.
 
-- [x] Enriched property master (`data/all_splits_income_scenarios.xlsx`; 124,980 properties, 126 LSOAs, 26 MSOAs)
-- [x] LSOA lognormal income distribution + SAP energy cost module (last verified run: 20260520_213323; 12/12 QA passed)
-- [ ] Clean baseline modelling dataset extract
-- [ ] Baseline required energy costs and baseline energy burden at property level
-- [ ] Price shock scenario engine
-- [ ] Risk metrics (Fuel Price-at-Risk, threshold-crossing, affordability gap-at-Risk)
-- [ ] Intervention simulations and de-risking dividend maps
-- [ ] Spatial and distributional outputs
+# Figure and Table Discipline
 
-For income-distribution methodology, run state, and QA gates, read `materials/LSOA_income_distribution_methodology.md`.
+Final figures should support the manuscript's argument, not merely decorate it.
 
-# Data Assets
+Good figure candidates include:
 
-The `data/` folder contains the working empirical datasets. Treat these as core research inputs and preserve raw or master files unless an overwrite has been explicitly approved.
+- conceptual diagram distinguishing fuel poverty, energy burden, and fuel price risk;
+- Westminster case map or spatial context figure;
+- distribution of baseline required energy burden;
+- price-shock burden uplift by dwelling or household archetype;
+- intervention de-risking comparison by tenure, dwelling type, or income group;
+- map of de-risking dividends and residual exposure.
 
-- `all_splits_income_scenarios.xlsx`  
-  Main Westminster property-level master file: EPC attributes (address, postcode, UPRN, age band, property type, built form, tariff, main fuel, fabric, floor area, SAP/EI, heating cost, coordinates, MSOA code), enriched with LSOA code, MSOA after-housing-cost income, LSOA income deprivation score, official LSOA fuel poverty rate, and LSOA income-distribution columns from the latest pipeline run.
+Do not place exploratory image exports directly in `paper/figures/`. Promote only figures that are likely to be cited in the manuscript.
 
-- `PCD_OA21_LSOA21_MSOA21_LAD_FEB25_UK_LU.csv`  
-  UK postcode lookup for OA 2021, LSOA 2021, MSOA 2021, and LAD. Use to match postcode to `LSOA code` and validate `MSOA code`.
+# LaTeX Workflow
 
-- `datasetfinal.xlsx`  
-  ONS small-area household income. Use sheet `Net income after housing costs` at MSOA level.
+Keep LaTeX edits clean and minimal.
 
-- `File_7_IoD2025_All_Ranks_Scores_Deciles_Population_Denominators.csv`  
-  IoD 2025 at LSOA level. Use `Income Score (rate)`.
+- Edit section files in `sections/` rather than expanding `main.tex` unnecessarily.
+- Keep labels, captions, and references stable once introduced.
+- Avoid hard-coded formatting hacks unless needed for journal-style readability.
+- Build artifacts stay in `build/`.
+- The committed PDF `build/main.pdf` may be updated when it represents a useful manuscript snapshot.
 
-- `File_6_IoD2025_Population_Denominators.xlsx`  
-  IoD 2025 population denominators for LSOA-level rates and aggregation checks.
+Ignored LaTeX intermediates include `.aux`, `.bbl`, `.blg`, `.fdb_latexmk`, `.fls`, `.log`, `.out`, `.synctex.gz`, and related files.
 
-- `fuel-poverty-sub-regional-2026-2024-data-tables.xlsx`  
-  Official sub-regional fuel poverty data. Use `Table 4` for LSOA `Proportion of households fuel poor (%)`.
+# Repository Structure
 
-- `data/backups/`  
-  Timestamped backups before overwriting master or processed files. Do not use as analytical inputs unless restoring or auditing.
+Current core folders:
 
-# Source Materials — When to Read What
+| Path | Purpose |
+|------|---------|
+| `sections/` | LaTeX manuscript sections |
+| `materials/phase-summaries/` | Imported Markdown stage summaries from related projects |
+| `assets/images/source/` | Source images imported from related projects |
+| `assets/images/selected/` | Selected candidate images for paper development |
+| `paper/figures/` | Final or near-final figures referenced in the manuscript |
+| `build/` | LaTeX build output, including manuscript PDF snapshots |
 
-Read the relevant file before detailed tasks. Do not guess from memory when precision matters.
+Do not use this repository as a dump for raw data, repeated outputs, temporary screenshots, or debug artifacts.
 
-| File | Read for |
-|------|----------|
-| `materials/项目核心研究总结.md` | Chinese overview of framework, concepts, data pipeline, and current LSOA income module |
-| `materials/UK_Household_Fuel_Risk_Research_Mainline.md` | UK-level mainline, thesis, RQs, archetypes, shock and intervention scenarios |
-| `materials/Westminster_Fuel_Risk_RQ_Contribution_Methodology.md` | Westminster RQ, contribution, methodology, spatial outputs, paper structure |
-| `materials/DP1.md` | Systematic literature review: fuel poverty, energy vulnerability, net zero protection, London/Westminster gaps |
-| `materials/DP2.md` | Conceptual precision: fuel poverty vs price risk, required vs actual expenditure, hidden energy poverty |
-| `materials/DP3.md` | Net zero interventions as de-risking tools: retrofit, heat pumps, PV, batteries, smart tariffs, adoption inequality |
-| `materials/DP4.md` | GB marginal pricing, gas-to-electricity pass-through, electrification risk, missing insurance dividend |
-| `materials/DP5.md` | Westminster case detail: PRS, social housing, flats, heritage stock, LAEP, local policy |
-| `materials/DP6.md` | Method and modelling design: metrics, shock scenarios, interventions, maps, outputs, limitations |
-| `materials/DP7.md` | Policy context: Fuel Poverty Strategy, ECO4, GBIS, SHDF, BUS, MEES, social tariff |
-| `materials/DP8.md` | Research gap, refined RQs, contribution statement, introduction-ready gap language |
-| `materials/LSOA_income_distribution_methodology.md` | LSOA lognormal income distribution, MSOA lambda calibration, SAP cost model, run procedure, QA gates |
+# Git and File Hygiene
+
+Preserve a clean research history.
+
+- Commit manuscript sources, curated materials, final or near-final figures, and reproducible project configuration.
+- Do not commit temporary files, exploratory outputs, scratch work, or build intermediates.
+- Review image and data file sizes before committing. Files over 50 MB need explicit review; core files over 100 MB should use Git LFS if they must be versioned.
+- Use explicit `git add <path>` commands rather than broad staging.
+- Do not rewrite or delete user work unless explicitly asked.
 
 # Agent Instructions
 
-Treat this as a serious high-impact journal paper, not a generic policy note.
+When helping in this repository:
 
-- Preserve the distinction between `fuel poverty`, `energy burden`, and `household fuel price risk`.
-- Do not treat retrofit, heat pumps, electrification, PV, batteries, or smart tariffs as automatically beneficial.
-- Always ask: **who receives protection?** and **who remains exposed?**
-- Use property-level or household-dwelling evidence as the empirical backbone.
-- When a task needs detail, consult the document map above and read the relevant source file first.
-- Use `required energy demand`; do not rely only on actual energy spending.
-- Keep electricity market design in view: gas-to-electricity pass-through and the electricity/gas price ratio matter for heat pumps and electrification.
-- Treat Westminster's PRS, flats, leasehold blocks, heritage constraints, and social housing pathways as core causal mechanisms.
-- Prioritise publication-quality argumentation for energy, urban studies, housing, climate policy, or energy justice journals.
+- Prioritise publication-quality English argumentation.
+- Preserve the distinction between fuel poverty, energy burden, and household fuel price risk.
+- Ask "who receives protection?" and "who remains exposed?" whenever interventions are discussed.
+- Keep electricity market design, tariff access, and gas-to-electricity price pass-through in view.
+- Treat tenure, leasehold governance, heritage constraints, housing costs, and dwelling form as central mechanisms.
+- Read the relevant section or material file before making detailed edits.
+- Make narrowly scoped edits that improve the manuscript without flattening its thesis.
+- Flag missing evidence rather than filling gaps with invented certainty.
 
-For coding, data processing, and simulation tasks, follow `.cursor/rules/research-workflow.mdc`.
-
-For git commits, follow `.cursor/rules/git-workflow.mdc` (or `@git-workflow` when committing).
+For git commits, follow the research-git-curator workflow: show the proposed scope, stage explicit paths, use concise research-oriented commit messages, and push only after confirmation.
