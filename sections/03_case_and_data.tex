@@ -2,8 +2,12 @@
 
 The empirical case is Westminster, London. The preferred unit of analysis is the property or household-dwelling pair. Where household microdata are unavailable, the study uses EPC property records combined with LSOA/MSOA income and deprivation proxies to assign synthetic households or archetypes.
 
+Westminster is not treated as a generic affluent borough. Its relevance lies in the coexistence of high aggregate wealth with residual-income pressure, older and heterogeneous housing, private renting, leasehold flats, conservation and heritage constraints, and social housing retrofit pathways. These features are not background descriptors; they shape exposure, sensitivity, and adaptive capacity. In a high-cost city, households can face fuel-price vulnerability through the combination of required heat demand and constrained residual income even where area-level averages appear comfortable.
+
 The current enriched property master contains 124,980 properties across 126 LSOAs and 26 MSOAs. It combines EPC attributes, spatial identifiers, MSOA after-housing-cost income, LSOA income deprivation, official LSOA fuel poverty rates, and LSOA income-distribution outputs from the latest verified pipeline.
 
 The latest EPC enrichment step links certificate records to the Westminster property master by UPRN, applies consistent UPRN normalisation in both merge and QA stages, and retains one selected EPC certificate per property using the latest lodgement or inspection date. The audited enriched stock preserves the master row count and reports zero unmatched master rows after the corrected linkage. EPC-derived tenure is used only as a proxy for tenure-related governance and adaptive capacity; the corrected analysis version classifies the stock as 58,744 private rented properties, 43,686 owner-occupied properties, 20,066 social rented properties, and 2,484 unknown-tenure properties.
 
 The analysis uses required energy demand rather than only observed expenditure, because actual consumption may understate unmet need through underheating or self-rationing.
+
+The resulting dataset is therefore best understood as a property-level modelling backbone for current required-burden exposure and future scenario analysis. It is not a direct observation of each household's income, consumption, or current tenure contract. This boundary is important: the modelling design is intended to reveal which property--income--governance combinations are likely to be exposed, not to certify household-level fuel-poverty status.
