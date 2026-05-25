@@ -14,9 +14,23 @@ Third, the baseline module generates a modelled LSOA fuel-poverty comparison use
 
 The latest high-risk explanation stage adds an audited EPC-enriched stock and a descriptive pathway typology. The enriched master retains 124,980 Westminster property records. After corrected UPRN standardisation, the QA workbook reports a complete match between the master properties and EPC certificate records, with zero unmatched master rows. The corrected EPC tenure proxy distributes the stock into 58,744 private rented properties, 43,686 owner-occupied properties, 20,066 social rented properties, and 2,484 unknown-tenure properties. These tenure categories are analytical proxies and should be interpreted as adaptive-capacity and governance indicators rather than as verified household tenure records.
 
-The implemented high-risk groups remain exploratory and model-based. HR10 contains the 12,500 properties in the top decile of the probability that required energy burden exceeds 10 percent; HR20 contains the 24,996 properties in the top quintile. The deterministic burden robustness groups contain 12,498 BR10 properties and 24,996 BR20 properties, while only 737 properties have a baseline required energy burden above 10 percent under the deterministic baseline measure. HR10 and BR10 overlap for 7,128 properties, or 57.0 percent of each group. This overlap is large enough to show that the probabilistic and deterministic indicators identify a related high-burden tail, but incomplete enough to justify reporting both.
+The implemented high-risk groups remain exploratory and model-based. HR10 contains the 12,500 properties in the top decile of the probability that required energy burden exceeds 10 percent; HR20 contains the 24,996 properties in the top quintile. The deterministic burden robustness groups contain 12,498 BR10 properties and 24,996 BR20 properties, while only 737 properties have a baseline required energy burden above 10 percent under the deterministic baseline measure. As Figure~\ref{fig:hr-br-overlap} shows, HR10 and BR10 overlap for 7,128 properties, or 57.0 percent of each group. This overlap is large enough to show that the probabilistic and deterministic indicators identify a related high-burden tail, but incomplete enough to justify reporting both.
 
-The strongest descriptive signal in the current outputs is the interaction between dwelling size and energy performance. EPC E--F--G properties above 120 m$^2$ have an HR10 share of 69.68 percent and an HR20 share of 85.21 percent, with a median baseline burden of 7.26 percent. E--F--G houses also show high within-type exposure, with an HR10 share of 56.08 percent. By contrast, E--F--G flats have a lower within-type HR10 share of 19.38 percent, but remain important because flats are numerous in the Westminster stock.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/high_risk_hr_br_overlap.png}
+\caption{Overlap between probabilistic high-risk groups (HR10/HR20) and deterministic baseline burden groups (BR10/BR20). The partial overlap shows that income-distribution exposure and deterministic burden intensity identify related but non-identical current high-burden sets.}
+\label{fig:hr-br-overlap}
+\end{figure}
+
+The strongest descriptive signal in the current outputs is the interaction between dwelling size and energy performance. Figure~\ref{fig:epc-floorarea-hr10} shows that EPC E--F--G properties above 120 m$^2$ have an HR10 share of 69.68 percent and an HR20 share of 85.21 percent, with a median baseline burden of 7.26 percent. E--F--G houses also show high within-type exposure, with an HR10 share of 56.08 percent. By contrast, E--F--G flats have a lower within-type HR10 share of 19.38 percent, but remain important because flats are numerous in the Westminster stock.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{paper/figures/high_risk_epc_floorarea_heatmap.png}
+\caption{HR10 share by EPC band and floor-area group. The heatmap shows that low energy performance becomes most consequential where required demand is amplified by dwelling size; EPC band alone is therefore an incomplete risk signal.}
+\label{fig:epc-floorarea-hr10}
+\end{figure}
 
 \begin{table}[htbp]
 \centering
@@ -39,7 +53,39 @@ Not high risk / comparison stock & 54,951 & 43.97\% & 0.00\% & 0.00\% \\
 \end{tabular}
 \end{table}
 
-The pathway table should be read as a targeting and interpretation device, not as a final causal attribution model. It separates two policy-relevant rankings: the highest within-pathway risk is concentrated in inefficient large owner-occupied gas houses, high-demand inefficient maisonettes, and social rented estate/block risk, while the largest contributions to all HR10 properties come from social rented estate/block risk, private rented weak-fabric gas flats, electric-heated inefficient flats/maisonettes, and the residual high-risk group. The next empirical outputs should therefore report both risk intensity and stock-scale contribution.
+Table~\ref{tab:high-risk-pathways} should be read as a targeting and interpretation device, not as a final causal attribution model. It separates two policy-relevant rankings: the highest within-pathway risk is concentrated in inefficient large owner-occupied gas houses, high-demand inefficient maisonettes, and social rented estate/block risk, while the largest contributions to all HR10 properties come from social rented estate/block risk, private rented weak-fabric gas flats, electric-heated inefficient flats/maisonettes, and the residual high-risk group. Figure~\ref{fig:high-risk-pathway-contribution} visualises the same distinction between risk intensity and stock-scale contribution. The next empirical outputs should therefore report both rankings.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/high_risk_pathway_contribution.png}
+\caption{Within-pathway HR10 risk and contribution to all HR10 properties. The figure distinguishes intensity from scale: some pathways have high within-group exposure, while others contribute substantially because they are more numerous in the Westminster stock.}
+\label{fig:high-risk-pathway-contribution}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{paper/figures/high_risk_tenure_by_pathway.png}
+\caption{Tenure-proxy composition by high-risk pathway. The figure links each descriptive pathway to a different governance route, including owner-occupation, social housing delivery, private rented enforcement, and mixed residual cases.}
+\label{fig:tenure-by-pathway}
+\end{figure}
+
+Figure~\ref{fig:tenure-by-pathway} then shows why these pathways imply different governance routes, rather than a single retrofit-delivery model. The electric-exposure comparison in Figure~\ref{fig:electric-exposure} isolates inefficient flats and maisonettes with EPC-recorded electricity exposure from non-electric low-EPC comparators and the remaining stock. Its purpose is not to claim that electrification causes high burden, but to show why household-facing electricity prices, fabric quality, and tariff access must be modelled before clean heat can be interpreted as price-risk protection.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/high_risk_electric_exposure.png}
+\caption{Current burden exposure among electric-exposed inefficient flats and maisonettes compared with non-electric low-EPC flats and the rest of the stock. The figure supports the paper's caution that electricity exposure and electrification are not automatically household de-risking mechanisms under current price structures.}
+\label{fig:electric-exposure}
+\end{figure}
+
+The spatial outputs in Figure~\ref{fig:spatial-high-risk} show that Westminster's current high-burden exposure is geographically uneven and mechanism-specific. They should be interpreted as LSOA-level descriptive maps of current HR10 concentration and dominant HR10 pathway, not as direct maps of future price-shock risk.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/high_risk_spatial_maps.png}
+\caption{Spatial concentration of current modelled HR10 exposure in Westminster. Panel A maps the LSOA share of properties in HR10; Panel B maps the dominant high-risk pathway among HR10 properties in each LSOA. The maps use the 123 LSOAs available in the GIS boundary file.}
+\label{fig:spatial-high-risk}
+\end{figure}
 
 The residual group is especially important for the next stage. It is too large to remain a black-box category once the paper moves from current exposure into price-shock risk. The planned analysis should separate income-driven residual cases, spatial-deprivation concentrations, mixed housing-and-income mechanisms, and unusual dwelling profiles. This will help distinguish households for whom technical retrofit is the central risk-reduction route from those for whom social tariffs, standing-charge reform, income support, or local assistance may be more relevant.
 
@@ -55,9 +101,7 @@ This metric will be estimated by intervention package and household-dwelling con
 
 \subsection{Figures and Tables}
 
-Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, and LSOA/MSOA. Expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; maps of baseline required-energy-burden exposure; distributional plots of shock-induced burden uplift; intervention de-risking comparisons; and maps of de-risking gaps.
-
-The latest high-risk explanation stage also identifies near-term manuscript figures: a side-by-side comparison of HR10 share within each pathway and each pathway's contribution to all HR10 properties; an EPC-band by floor-area heatmap coloured by HR10 share; a tenure-proxy by EPC-band heatmap; an LSOA map of HR10 share; an LSOA map of the dominant HR10 pathway; and, if needed, an alluvial chart linking tenure, property type, EPC band, and pathway. These should be promoted to \texttt{paper/figures/} only after specific figure files are selected and checked.
+Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, and LSOA/MSOA. The current high-risk explanation figures already promoted into the manuscript are Figures~\ref{fig:hr-br-overlap}--\ref{fig:spatial-high-risk}. Remaining expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; distributional plots of shock-induced burden uplift; intervention de-risking comparisons; and maps of de-risking gaps.
 
 Before intervention results are reported, the spatial outputs should establish whether different mechanisms concentrate in different parts of Westminster. Priority maps include LSOA HR10 share, LSOA HR20 share, dominant HR10 pathway, social rented estate/block concentration, electric-heated inefficient flat concentration, and residual high-risk concentration. These maps would support the paper's claim that fuel price risk is produced by locally specific combinations of housing form, income sensitivity, and governance constraints rather than by a uniform borough-wide condition.
 
