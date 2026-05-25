@@ -2,7 +2,13 @@
 
 The empirical strategy is a property-level income--cost and scenario model. It links EPC-derived dwelling characteristics, synthetic LSOA income distributions, required energy costs, price-shock scenarios, domestic net zero intervention packages, and spatial-distributional outputs. The unit of analysis is property $p$ in LSOA $l$ and MSOA $m$. Where observed household incomes are unavailable, the model estimates the probability that a household drawn from the local residual-income distribution would face a given required-energy burden. This design is deliberately probabilistic: it does not claim to observe the income of the current occupant of each property.
 
+The equations are chosen to match the conceptual problem rather than to maximise statistical complexity. The paper needs a model that can do four things transparently: estimate required energy affordability under current conditions; expose the same property-income combinations to future fuel-price shocks; distinguish average burden from upper-tail burden risk; and compare intervention packages only after technical, tenure, tariff, and governance constraints are represented. A property-level scenario model is appropriate because the key mechanisms operate at different scales: dwelling fabric and heating systems are property-level, income distributions are small-area approximations, tariffs and fuel prices are market-level, and feasibility constraints are mediated by tenure, leasehold, heritage, and local delivery. The model is therefore not a prediction of exact bills for named households. It is a structured counterfactual framework for asking which property--income--governance combinations are most exposed and which interventions reduce that exposure.
+
+This approach is also deliberately modular. The income--cost engine establishes the baseline denominator and required-cost numerator. The price-shock engine changes unit prices, standing charges, and mitigation while holding the logic of required demand explicit. The intervention engine then changes demand, fuel structure, tariff access, and feasibility. Because each layer modifies a different part of the same burden equation, the resulting de-risking estimates remain interpretable: a lower risk score can be traced to lower required demand, lower unit-price exposure, improved tariff access, policy support, or greater feasibility. This is why the equations are sufficient for the paper's purpose even though they do not observe all household behaviours directly.
+
 \subsection{Income--Cost Engine}
+
+The income--cost engine answers the first empirical problem: how can current required-burden exposure be estimated when the dataset contains properties rather than verified household incomes? A single average income would suppress Westminster's local lower tail, while assigning one synthetic income to each property would imply false precision. The constrained lognormal specification provides a middle route. It keeps MSOA after-housing-cost income as an anchor, allows LSOA-level lower-tail differentiation through deprivation information, and returns probabilities rather than definitive household labels.
 
 The implemented income layer estimates one constrained lognormal after-housing-cost income distribution for each LSOA:
 \begin{equation}
@@ -51,6 +57,8 @@ P_{p,0}(\tau)=\Pr \left(B_{p,0}(Y_l)>\tau \right)
 \end{equation}
 The implemented baseline output uses $\tau=0.10$. For modelled LSOA fuel-poverty comparison, properties with SAP grades A, B, or C are assigned a property poverty score of zero; other properties use $P_{p,0}(0.10)$. This score is a baseline affordability input, not a complete measure of household fuel price risk.
 
+The threshold probability is useful because it reports exposure to a policy-relevant affordability boundary without claiming that the boundary is the whole concept of fuel poverty. It also avoids reducing Westminster's mixed-income geography to area averages. A property can have moderate deterministic burden under the MSOA mean but still have a substantial probability of high burden for households in the local lower tail. Conversely, a property with high required cost may be less probabilistically exposed if local residual incomes are high. This distinction is central to the paper's question because price shocks will interact with both required demand and income sensitivity.
+
 For robustness, the pipeline also reports a deterministic baseline burden ratio:
 \begin{equation}
 \widetilde{B}_{p,0}=\frac{C_{p,0}}{\bar{Y}_m},
@@ -86,6 +94,8 @@ and the burden uplift is:
 \Delta B_{p,s}(Y_l)=B_{p,s}(Y_l)-B_{p,0}(Y_l).
 \end{equation}
 
+This cost equation is intentionally simple and explicit. It separates the components through which price risk reaches households: gas unit prices, electricity unit prices, fixed standing charges, fuel connections, and policy mitigation. That separation is necessary because different interventions act on different terms. Fabric retrofit reduces required quantities; heat pumps change the gas-electricity mix; PV and batteries reduce grid electricity imports under some profiles; tariff reform changes prices or standing charges; and public support enters as mitigation. A more compact total-bill equation would obscure these mechanisms and make it harder to explain why an intervention protects one group but not another.
+
 The main risk indicators are defined as distributional rather than average outcomes. The scenario-specific threshold-crossing probability is:
 \begin{equation}
 P_{p,s}(\tau)=F_l\left(\frac{C_{p,s}}{\tau}\right).
@@ -105,6 +115,8 @@ Household Fuel Price-at-Risk is defined as a high quantile of the scenario burde
 \end{equation}
 where $\alpha$ may be set to a policy-relevant upper-tail level such as 0.90 or 0.95. These metrics keep fuel poverty, energy burden, and fuel price risk analytically separate: the first concerns current hardship, the second is a cost-to-income ratio, and the third measures future exposure and sensitivity under price shocks.
 
+The three risk metrics have different policy uses. Threshold-crossing probabilities show how many property-income combinations are likely to move beyond an affordability boundary. Gap-at-risk reports the monetary depth of exposure above that boundary, which matters for bill support or social tariff design. Household Fuel Price-at-Risk focuses on the upper tail of the scenario burden distribution, which is the relevant object when the policy concern is protection against shocks rather than average annual affordability. Reporting all three avoids a false choice between headcount, severity, and tail-risk interpretations.
+
 \subsection{Intervention Counterfactuals}
 
 Domestic net zero interventions are represented as counterfactual changes to required demand, fuel structure, tariff exposure, and mitigation access. Let $k$ denote an intervention package, such as fabric retrofit, clean heat, PV, battery storage, smart tariffs, or an integrated package. The post-intervention scenario cost is:
@@ -113,6 +125,8 @@ C_{p,s,k}=
 a_{p,k}\widetilde{C}_{p,s,k}+(1-a_{p,k})C_{p,s},
 \end{equation}
 where $a_{p,k}\in[0,1]$ represents technical, tenure, leasehold, heritage, roof, finance, or tariff feasibility. This term is central to the paper's interpretation: an intervention produces household risk protection only where access and market conditions allow the technical change to translate into lower exposure.
+
+The feasibility parameter is not a decorative adjustment. It is the formal expression of the paper's claim that domestic net zero is conditional household protection. Without $a_{p,k}$, the model would implicitly assume that every property can receive every intervention and that all occupants can capture the resulting benefit. That assumption would be especially misleading in Westminster, where flats, leasehold blocks, private renting, social housing delivery, heritage constraints, roof rights, smart-meter access, and tariff eligibility all shape whether an engineering option becomes a household de-risking option.
 
 The intervention-specific threshold risk and Fuel Price-at-Risk are:
 \begin{equation}
@@ -129,3 +143,5 @@ D_{p,\alpha,k}=
 \operatorname{HFPaR}_{p,\alpha,k}.
 \end{equation}
 Results will be stratified by income distribution, EPC rating, dwelling form, heating system, tenure, leasehold and heritage constraints, and LSOA/MSOA location. The empirical question is therefore not whether a low-carbon measure reduces emissions in engineering terms, but who receives measurable price-risk protection once required demand, tariffs, fuel-market pass-through, and local governance constraints are jointly considered.
+
+The de-risking dividend is the bridge between the conceptual and empirical contributions. It does not ask whether an intervention is technically impressive on average. It asks whether the intervention reduces the upper-tail burden that households would face across price-shock scenarios. A positive dividend means that the package has converted at least part of the technical or policy change into lower household price-risk exposure. A small or uneven dividend indicates either that the intervention does not affect the relevant risk channel, or that feasibility, tariff access, price pass-through, or income sensitivity prevents households from capturing the protection.
