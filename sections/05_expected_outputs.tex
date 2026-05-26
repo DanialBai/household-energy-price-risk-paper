@@ -1,14 +1,37 @@
 \section{Expected Outputs}
 
-The empirical outputs are designed to move from an implemented income--cost baseline to forward-looking price-risk and intervention comparisons. The latest verified modelling round already provides the first layer of this sequence: a property-level baseline required-energy-burden engine for Westminster, built from constrained LSOA income distributions and SAP-derived required energy costs. The run labelled \texttt{20260520\_213323} covers 124,980 EPC property records across 126 LSOAs and 26 MSOAs. It preserves MSOA after-housing-cost income consistency while allowing LSOA differentiation mainly through income dispersion and lower-tail probability, rather than by claiming directly observed household incomes.
+The empirical outputs are designed to move from an implemented income--cost baseline to forward-looking price-risk and intervention comparisons. The latest canonical property-level modelling round already provides the first layer of this sequence: a baseline required-energy-burden engine for Westminster, built from constrained LSOA income distributions and SAP-derived required energy costs. The run labelled \texttt{20260520\_213323} covers 124,980 EPC property records across 126 LSOAs and 26 MSOAs. It preserves MSOA after-housing-cost income consistency while allowing LSOA differentiation mainly through income dispersion and lower-tail probability, rather than by claiming directly observed household incomes. A subsequent read-only sensitivity run labelled \texttt{20260526\_144256} tests alternative MSOA income anchors and the pseudo-Huber L1 lower-tail constraint; it is used here as a robustness diagnostic rather than as a replacement for the canonical property-level master.
 
 \subsection{Implemented Baseline Outputs}
 
-The current outputs support three baseline products. First, the model estimates LSOA lognormal income parameters, including $\mu_l$, $\sigma_l$, lower-tail probabilities below \pounds 19{,}009, and the selected MSOA-level regularisation parameter $\lambda$. In the latest verified run, the ratio of LSOA mean income to MSOA income is tightly anchored, ranging from 0.999650 to 1.000309, while $\sigma_l$ ranges from 0.4192 to 1.4000. Only 3 of 126 LSOAs sit at the new upper bound, compared with 31 of 126 under the previous bound of 0.9. This indicates that within-MSOA differentiation is being carried primarily by dispersion and tail probability.
+The current outputs support three baseline products. First, the model estimates LSOA lognormal income parameters, including $\mu_l$, $\sigma_l$, lower-tail probabilities below \pounds 19{,}009, and the selected MSOA-level regularisation parameter $\lambda$. In the canonical verified run, the ratio of LSOA mean income to MSOA income is tightly anchored, ranging from 0.999650 to 1.000309, while $\sigma_l$ ranges from 0.4192 to 1.4000. Only 3 of 126 LSOAs sit at the new upper bound, compared with 31 of 126 under the previous bound of 0.9. This indicates that within-MSOA differentiation is being carried primarily by dispersion and tail probability.
 
 Second, the model produces property-level SAP-derived required energy cost and the probability that required energy burden exceeds a 10 percent threshold. This output should be interpreted as baseline required-energy affordability exposure, not as a complete household fuel price risk measure. It provides the denominator and cost foundation for later shock scenarios, while avoiding dependence on actual expenditure that may be suppressed by underheating or self-rationing.
 
-Third, the baseline module generates a modelled LSOA fuel-poverty comparison used for calibration diagnostics. The latest run has a mean modelled-minus-official LSOA fuel-poverty-rate error of -0.0174, a median error of -0.0270, and a worst absolute error of 0.133. This residual gap is substantively useful rather than merely technical: it shows that income-tail matching alone does not reproduce official fuel-poverty geography, reinforcing the paper's distinction between income deprivation, required energy burden, dwelling fabric, heating systems, tenure, and future price risk.
+Third, the baseline module generates a modelled LSOA fuel-poverty comparison used for calibration diagnostics. The latest sensitivity run has a mean modelled-minus-official LSOA fuel-poverty-rate error of -0.0174 and a worst absolute error of 0.133 under the central income-anchor scenario. Weighted MSOA-level RMSE is similar across the central, upper-confidence-limit, and lower-confidence-limit scenarios, with means of 0.04944, 0.05022, and 0.04821 respectively. This residual gap is substantively useful rather than merely technical: it shows that income-tail matching alone does not reproduce official fuel-poverty geography, reinforcing the paper's distinction between income deprivation, required energy burden, dwelling fabric, heating systems, tenure, and future price risk.
+
+Figures~\ref{fig:lsoa-income-pdf-scenarios-1}--\ref{fig:lsoa-income-pdf-scenarios-3} report the promoted LSOA income PDF scenario panels from the May 2026 read-only sensitivity run. They should be read as sensitivity diagnostics for the synthetic income layer. The solid, dashed, and dotted curves compare central, upper-confidence-limit, and lower-confidence-limit MSOA income anchors while holding the lower-tail constraint and required-energy-cost logic fixed. The red vertical marker is the \pounds 19{,}009 income-tail threshold used in the current module. These figures therefore support the baseline burden model by showing how local lower-tail assumptions vary across LSOAs and MSOAs; they do not yet measure future household fuel price risk.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_income_pdf_scenarios_1.png}
+\caption{LSOA income PDF scenario sensitivity, panel set 1 of 3. The curves compare central, upper-confidence-limit, and lower-confidence-limit MSOA after-housing-cost income anchors for constrained synthetic LSOA income distributions; the red line marks the \pounds 19{,}009 lower-tail threshold.}
+\label{fig:lsoa-income-pdf-scenarios-1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_income_pdf_scenarios_2.png}
+\caption{LSOA income PDF scenario sensitivity, panel set 2 of 3. The figure continues the diagnostic comparison of income-anchor uncertainty across Westminster MSOAs and should be interpreted as a baseline burden-modelling input rather than an observed household income distribution.}
+\label{fig:lsoa-income-pdf-scenarios-2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_income_pdf_scenarios_3.png}
+\caption{LSOA income PDF scenario sensitivity, panel set 3 of 3. The panels show that income-anchor uncertainty shifts selected lower-tail distributions, while the residual modelled-versus-official fuel-poverty gap remains a construct-alignment limitation rather than a price-risk result.}
+\label{fig:lsoa-income-pdf-scenarios-3}
+\end{figure}
 
 \subsection{Implemented High-Risk Explanation Outputs}
 
@@ -105,6 +128,6 @@ Expected tables will summarise baseline burden probabilities, modelled fuel-pove
 
 Before intervention results are reported, the spatial outputs should establish whether different mechanisms concentrate in different parts of Westminster. Priority maps include LSOA HR10 share, LSOA HR20 share, dominant HR10 pathway, social rented estate/block concentration, electric-heated inefficient flat concentration, and residual high-risk concentration. These maps would support the paper's claim that fuel price risk is produced by locally specific combinations of housing form, income sensitivity, and governance constraints rather than by a uniform borough-wide condition.
 
-The synced LSOA income PDF panels from the latest run are useful writing and diagnostic references. They show the estimated lognormal income distributions under selected $\lambda$ values, with poverty-line and MSOA-mean markers. If promoted into the manuscript, they should be captioned as synthetic constrained income distributions for burden modelling, not as observed household income distributions and not as direct household fuel price risk outputs.
+The synced LSOA income PDF panels from the latest run are included above as Figures~\ref{fig:lsoa-income-pdf-scenarios-1}--\ref{fig:lsoa-income-pdf-scenarios-3}. They show the estimated lognormal income distributions under selected $\lambda$ values, with poverty-line and MSOA-mean markers. They are captioned as synthetic constrained income distributions for burden modelling, not as observed household income distributions and not as direct household fuel price risk outputs.
 
 The paper will ultimately identify de-risking gaps: places and household-dwelling types where fuel price protection is most needed but low-carbon intervention is least accessible. These gaps are expected to be especially important where Westminster's high housing costs, private renting, leasehold flats, heritage constraints, district-heating governance, and uneven tariff or asset access interrupt the translation from domestic net zero investment into household price-risk protection.

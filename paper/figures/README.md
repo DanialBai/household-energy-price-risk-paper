@@ -30,3 +30,15 @@ Purpose in manuscript:
 ```
 
 Exploratory or repeated debug outputs should stay in `outputs/` and should not be committed by default.
+
+## Imported Figure Notes
+
+### Baseline income PDF scenario panels
+
+Source data: `outputs/lsoa_income_distribution_scenarios_20260526_144256.xlsx` from the related Westminster household risk project.
+
+Script or source project: `plot_lsoa_income_distribution_scenarios.py` in project one.
+
+Generated/imported on: 2026-05-26.
+
+Purpose in manuscript: Diagnostic LSOA income-distribution sensitivity panels for the baseline burden model; referenced in `sections/05_expected_outputs.tex`.

@@ -30,3 +30,19 @@ paper/figures/
 ```
 
 When a selected image becomes a manuscript figure, record the relationship here or in the figure caption source.
+
+## Selected Batch: Baseline Income PDF Scenario Panels
+
+Selected files:
+
+- `lsoa_income_pdf_scenarios_1.png`
+- `lsoa_income_pdf_scenarios_2.png`
+- `lsoa_income_pdf_scenarios_3.png`
+
+Promoted manuscript files:
+
+- `paper/figures/baseline_income_pdf_scenarios_1.png`
+- `paper/figures/baseline_income_pdf_scenarios_2.png`
+- `paper/figures/baseline_income_pdf_scenarios_3.png`
+
+Purpose: Baseline income-distribution sensitivity diagnostics, not price-shock or intervention results.

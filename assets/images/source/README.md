@@ -37,3 +37,15 @@ Reuse/copyright status:
 ```
 
 Large files over 50 MB should be reviewed before committing. Core files over 100 MB should use Git LFS if they must be versioned.
+
+## Imported Batch: Baseline Income PDF Scenario Panels
+
+Source project: Westminster household fuel price risk project one.
+
+Original folder: `writing_materials/from_project_one/figures/`.
+
+Imported on: 2026-05-26.
+
+Selection rationale: LSOA income PDF scenario panels selected to document the baseline burden model's income-anchor sensitivity before price-shock modelling.
+
+Reuse/copyright status: Internal project-generated figures.

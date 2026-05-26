@@ -18,7 +18,7 @@ where $Y_l$ denotes annual residual household income. The distribution is parame
 \begin{equation}
 \mu_l=\ln(\bar{Y}_l)-\frac{1}{2}\sigma_l^2 .
 \end{equation}
-For each MSOA, the LSOA parameters are jointly estimated so that the property-weighted mean remains anchored to the MSOA after-housing-cost income, while the lower tail is differentiated by the LSOA income-deprivation signal. For a given regularisation parameter $\lambda$, the objective is:
+For each MSOA, the LSOA parameters are jointly estimated so that the property-weighted mean remains anchored to the MSOA after-housing-cost income, while the lower tail is differentiated by the LSOA income-deprivation signal. The LSOA income-deprivation term is treated as a robust soft constraint on the lower tail, not as an equality target. For a given regularisation parameter $\lambda$, the current objective is:
 \begin{equation}
 \begin{split}
 \mathcal{L}_m(\lambda)=&
@@ -27,12 +27,17 @@ For each MSOA, the LSOA parameters are jointly estimated so that the property-we
 -\ln(\bar{Y}_m)
 \right]^2 \\
 &+\lambda \sum_{l \in m} w_l
-\left[
-F_l(z)-d_l
-\right]^2 ,
+\rho_{\eta}\left(F_l(z)-d_l\right),
 \end{split}
 \end{equation}
-where $N_l$ is the number of EPC property records in LSOA $l$, $w_l=N_l/\sum_{l \in m}N_l$, $\bar{Y}_m$ is MSOA residual income, $z=19{,}009$ is the income threshold used in the current module, $F_l(\cdot)$ is the LSOA lognormal cumulative distribution function, and $d_l$ is the LSOA income-deprivation score. The current implementation constrains $\sigma_l \in [0.10,1.40]$ and searches a log-spaced grid of 100 $\lambda$ values from $10^{-4}$ to $10^{-1}$. Official LSOA fuel-poverty rates are used to select $\lambda$ by minimising property-weighted RMSE, with weighted MAE and then the smaller $\lambda$ as tie-breakers; they are not entered directly as the optimisation target.
+where $N_l$ is the number of EPC property records in LSOA $l$, $w_l=N_l/\sum_{l \in m}N_l$, $\bar{Y}_m$ is MSOA residual income, $z=19{,}009$ is the income threshold used in the current module, $F_l(\cdot)$ is the LSOA lognormal cumulative distribution function, and $d_l$ is the LSOA income-deprivation score. The robust loss is the pseudo-Huber L1 form:
+\begin{equation}
+\rho_{\eta}(d)=\sqrt{d^2+\eta^2}-\eta,
+\qquad \eta=10^{-3}.
+\end{equation}
+The fixed $\eta$ is a numerical differentiability regulariser for optimisation rather than a substantive research parameter. The current implementation constrains $\sigma_l \in [0.10,1.40]$ and searches a log-spaced grid of 100 $\lambda$ values from $10^{-4}$ to $10^{-1}$. Official LSOA fuel-poverty rates are used only as an external diagnostic to select $\lambda$ by minimising property-weighted RMSE, with weighted MAE and then the larger $\lambda$ as tie-breakers; they are not entered directly as the optimisation target.
+
+The May 2026 sensitivity run also varies the MSOA after-housing-cost income anchor across central, upper-confidence-limit, and lower-confidence-limit scenarios. These scenarios bracket income-anchor uncertainty for the baseline burden model. They are not income forecasts, and they do not replace the canonical property-level master until a deliberate rerun is approved.
 
 Required energy cost is derived from SAP and floor area rather than from observed consumption, because actual expenditure may be suppressed by underheating or self-rationing. For property $p$, the SAP energy cost factor is:
 \begin{equation}
@@ -58,6 +63,8 @@ P_{p,0}(\tau)=\Pr \left(B_{p,0}(Y_l)>\tau \right)
 The implemented baseline output uses $\tau=0.10$. For modelled LSOA fuel-poverty comparison, properties with SAP grades A, B, or C are assigned a property poverty score of zero; other properties use $P_{p,0}(0.10)$. This score is a baseline affordability input, not a complete measure of household fuel price risk.
 
 The threshold probability is useful because it reports exposure to a policy-relevant affordability boundary without claiming that the boundary is the whole concept of fuel poverty. It also avoids reducing Westminster's mixed-income geography to area averages. A property can have moderate deterministic burden under the MSOA mean but still have a substantial probability of high burden for households in the local lower tail. Conversely, a property with high required cost may be less probabilistically exposed if local residual incomes are high. This distinction is central to the paper's question because price shocks will interact with both required demand and income sensitivity.
+
+The residual gap between the modelled poverty proxy and official LSOA fuel-poverty rates is interpreted as a limitation of construct alignment rather than as a simple tuning failure. Income deprivation, required-energy burden, and official fuel poverty are related but non-equivalent measures. Under the current parameterisation, the MSOA mean term anchors $\bar{Y}_l$, while the LSOA lower-tail term strongly identifies $\sigma_l$; changing the lower-tail loss from squared error to pseudo-Huber L1 therefore did not materially change the fitted distributions. This is useful diagnostically because it cautions against using official fuel poverty as if it were the same object as income-tail exposure or future fuel price risk.
 
 For robustness, the pipeline also reports a deterministic baseline burden ratio:
 \begin{equation}
