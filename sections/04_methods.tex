@@ -88,6 +88,78 @@ with a unit-price-only cost $\pi_f\widehat{Q}_{p,f}$ and a unit-plus-standing co
 
 This diagnostic matters for the price-risk model because baseline cost definition is not neutral. In the 124,980-property Westminster sample, SAP-inverse annual cost is higher than the EPC heating, hot water, and lighting total for most properties, and the top-burden groups produced by the two definitions overlap only partially. The implication is not that one measure is self-evidently correct. Rather, the paper should report the canonical burden model while retaining baseline-cost definition as a robustness boundary before introducing future price shocks.
 
+\subsection{Official Fuel-Price Scenario Spine}
+
+The newly imported official price-spine materials specify the price-shock engine used to convert baseline required-burden exposure into future-facing household fuel price risk. The spine is a tariff input layer rather than a bill model: it translates official Ofgem, GOV.UK and DESNZ sources into monthly and event-level price records for the London region, preserving unit rates, standing charges, payment methods, VAT treatment, source provenance, and region-basis flags. This separation is methodologically important because it prevents the paper from treating a price series, a household bill, and a household fuel price risk estimate as the same object.
+% Source TODO: cite Ofgem default tariff cap levels, Ofgem unit rates and standing charges, GOV.UK Energy Price Guarantee regional rates, and DESNZ petroleum product monthly statistics.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Domestic official fuel-price scenario spine for Westminster modelling}
+\label{tab:official-price-spine}
+\begin{tabular}{p{0.08\linewidth}p{0.29\linewidth}p{0.18\linewidth}p{0.18\linewidth}p{0.20\linewidth}}
+\toprule
+ID & Scenario & Window & Fuels & Analytical role \\
+\midrule
+S0 & Baseline 2021 reference & 2021-04 to 2021-09 & Electricity, gas & Pre-shock reference \\
+S1 & Post-COVID cap uplift & 2021-10 to 2022-03 & Electricity, gas & Early wholesale uplift \\
+S2 & Severe 2022H1 cap uplift & 2022-04 to 2022-09 & Electricity, gas & Pre-Ukraine severe uplift \\
+S3 & Ukraine unmitigated cap & 2022-10 to 2022-12 & Electricity, gas & Unmitigated cap exposure \\
+S4 & Ukraine EPG observed & 2022-10 to 2022-12 & Electricity, gas & Policy-mitigated unit rates \\
+S5 & Heating-oil spike & 2022-03 to 2022-06 & Heating oil & Off-gas fuel robustness \\
+S6 & Standing-charge reallocation & 2026-04 to 2026-09 & Electricity, gas & Fixed-cost sensitivity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:official-price-spine-timeline} shows the timing of the scenario set. S0--S6 form the domestic modelling spine. The road-fuel scenario retained in the source material is excluded from the main household heating and electricity model unless a separate transport-energy appendix is introduced.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/official_price_spine_scenario_timeline.png}
+\caption{Official fuel-price scenario timeline used to construct the Westminster household fuel price risk price spine. The domestic model uses S0--S6; road fuel is retained only as an optional appendix input.}
+\label{fig:official-price-spine-timeline}
+\end{figure}
+
+For S0--S3, London electricity and gas tariff components are parsed from historical Ofgem default tariff cap workbooks for the relevant cap periods. The parser derives daily standing charges from nil-consumption annual charges and derives unit rates from benchmark consumption charges after subtracting nil-consumption charges:
+\begin{equation}
+SC_{r,f,t}=\frac{C^{0}_{r,f,t}\times100}{365},
+\qquad
+\pi_{r,f,t}=\frac{(C^{b}_{r,f,t}-C^{0}_{r,f,t})\times100}{Q^{b}_{f,t}},
+\end{equation}
+where $SC_{r,f,t}$ is the standing charge in pence per day for region $r$, fuel $f$ and period $t$, $\pi_{r,f,t}$ is the unit rate in pence per kWh, $C^{0}_{r,f,t}$ is the nil-consumption annual charge, $C^{b}_{r,f,t}$ is the benchmark-consumption annual charge, and $Q^{b}_{f,t}$ is the relevant benchmark consumption quantity. Historical workbook values are converted to household-facing VAT-inclusive prices where required so that burden metrics are based on consumer-facing cost exposure.
+
+The S3/S4 distinction is central to the empirical design. S3 represents unmitigated 2022Q4 cap exposure, while S4 represents the observed Energy Price Guarantee unit-rate support for the same shock window, with standing charges retained from the S3 derivation for full bill construction. Figure~\ref{fig:official-price-spine-unit-rates} makes this contrast visible: the EPG scenario is not a generic lower-bill assumption, but a specific policy-mitigation counterfactual that allows the model to separate market exposure from policy buffering.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/official_price_spine_unit_rate_progression.png}
+\caption{Electricity and gas unit-rate progression across the baseline, post-COVID, Ukraine, EPG and 2026 tariff-structure scenarios. S3 and S4 should be interpreted as unmitigated versus policy-mitigated 2022Q4 scenarios.}
+\label{fig:official-price-spine-unit-rates}
+\end{figure}
+
+The model retains unit rates and standing charges as separate components throughout. Figure~\ref{fig:official-price-spine-decomposition} shows why this matters: a unit-rate shock and a fixed daily-charge shock reach households through different channels. The former scales with required kWh demand; the latter applies even where households have low use, small dwellings, or suppressed consumption because of underheating. Treating the tariff as a single scalar would therefore hide a mechanism that is particularly relevant to low-income and low-use households.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/official_price_spine_unit_standing_decomposition.png}
+\caption{Unit-rate and daily standing-charge decomposition in the official London price spine. Standing charges are fixed daily bill components rather than costs proportional to required kWh demand.}
+\label{fig:official-price-spine-decomposition}
+\end{figure}
+
+S5 is applied only to dwellings with heating-oil or off-gas exposure, because heating oil is not governed by the Ofgem electricity and gas price cap. S6 is treated as a tariff-structure sensitivity rather than as a fully official London-specific forecast. It compares the April--June 2026 reference structure with the July--September 2026 scenario structure and includes documented proxy inputs for Q3 where London-specific values are not fully available in the imported spine. The Q3 proxy caveat is retained as a design limitation, not suppressed as if the sensitivity were a complete official London tariff series. Figure~\ref{fig:official-price-spine-s6} is therefore used to motivate fixed-cost sensitivity analysis, not to claim a definitive future Westminster bill path.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/official_price_spine_s6_fixed_cost_sensitivity.png}
+\caption{S6 standing-charge reallocation sensitivity comparing the 2026Q2 reference and 2026Q3 scenario tariff structures. The Q3 values include proxy inputs and should be used as a fixed-cost sensitivity rather than a fully official London-specific forecast.}
+\label{fig:official-price-spine-s6}
+\end{figure}
+
+The latest imported price-spine QA summary reports no failed checks and two warning-level limitations attached to the S6 Q3 proxy inputs. These warnings do not prevent S6 from being used as a sensitivity scenario, but they do constrain interpretation. In the manuscript, the scenario should therefore be described as a test of fixed-cost exposure under current tariff-structure change, not as a definitive prediction of future London household prices.
+
 \subsection{EPC Enrichment and High-Risk Pathways}
 
 The latest explanatory layer enriches the Westminster property master with EPC certificate records using UPRN-based linkage. UPRNs are standardised before both merging and QA checks, so that numeric and string representations of the same property identifier do not generate false unmatched cases. Where multiple EPC certificates are available for a property, the selected record is the latest \texttt{LODGEMENT\_DATETIME}; where this is unavailable, the latest \texttt{INSPECTION\_DATE} is used, and remaining ties fall back to the first available row. EPC fields are added with an \texttt{EPC\_} prefix, the original property master is not overwritten, and the row count and row order of the master are preserved.
@@ -104,11 +176,11 @@ The corresponding descriptive figures report pathway risk and contribution, EPC-
 
 \subsection{Price-Shock Risk Metrics}
 
-The price-shock layer converts the baseline income--cost engine into forward-looking risk metrics. Let $s \in S$ denote a fuel-price scenario, including gas-price, electricity-price, combined-fuel, standing-charge, and policy-mitigation cases. Required cost under scenario $s$ is written as:
+The price-shock layer converts the baseline income--cost engine into forward-looking risk metrics using the official price spine described in Table~\ref{tab:official-price-spine} and Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6}. Let $s \in S$ denote a fuel-price scenario, including gas-price, electricity-price, combined-fuel, standing-charge, heating-oil, and policy-mitigation cases. Required cost under scenario $s$ is written as:
 \begin{equation}
-C_{p,s}=\pi^g_s Q^g_p+\pi^e_s Q^e_p+SC^g_s I^g_p+SC^e_s I^e_p-M_{p,s},
+C_{p,s}=\pi^g_s Q^g_p+\pi^e_s Q^e_p+\pi^o_s Q^o_p+SC^g_s I^g_p+SC^e_s I^e_p-M_{p,s},
 \end{equation}
-where $Q^g_p$ and $Q^e_p$ are required gas and electricity quantities or archetype-imputed equivalents, $\pi^g_s$ and $\pi^e_s$ are scenario fuel prices, $SC^g_s$ and $SC^e_s$ are standing charges, $I^g_p$ and $I^e_p$ indicate fuel connections, and $M_{p,s}$ captures bill support or other mitigation. The scenario burden is:
+where $Q^g_p$, $Q^e_p$, and $Q^o_p$ are required gas, electricity, and heating-oil quantities or archetype-imputed equivalents, $\pi^g_s$, $\pi^e_s$, and $\pi^o_s$ are scenario fuel prices, $SC^g_s$ and $SC^e_s$ are standing charges, $I^g_p$ and $I^e_p$ indicate fuel connections, and $M_{p,s}$ captures bill support or other mitigation. The scenario burden is:
 \begin{equation}
 B_{p,s}(Y_l)=\frac{C_{p,s}}{Y_l},
 \end{equation}
@@ -117,7 +189,7 @@ and the burden uplift is:
 \Delta B_{p,s}(Y_l)=B_{p,s}(Y_l)-B_{p,0}(Y_l).
 \end{equation}
 
-This cost equation is intentionally simple and explicit. It separates the components through which price risk reaches households: gas unit prices, electricity unit prices, fixed standing charges, fuel connections, and policy mitigation. That separation is necessary because different interventions act on different terms. Fabric retrofit reduces required quantities; heat pumps change the gas-electricity mix; PV and batteries reduce grid electricity imports under some profiles; tariff reform changes prices or standing charges; and public support enters as mitigation. A more compact total-bill equation would obscure these mechanisms and make it harder to explain why an intervention protects one group but not another.
+This cost equation is intentionally simple and explicit. It separates the components through which price risk reaches households: gas unit prices, electricity unit prices, heating-oil prices where relevant, fixed standing charges, fuel connections, and policy mitigation. That separation is necessary because different interventions act on different terms. Fabric retrofit reduces required quantities; heat pumps change the gas-electricity mix; PV and batteries reduce grid electricity imports under some profiles; tariff reform changes prices or standing charges; and public support enters as mitigation. A more compact total-bill equation would obscure these mechanisms and make it harder to explain why an intervention protects one group but not another.
 
 The main risk indicators are defined as distributional rather than average outcomes. The scenario-specific threshold-crossing probability is:
 \begin{equation}
