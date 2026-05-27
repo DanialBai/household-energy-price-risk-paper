@@ -33,6 +33,30 @@ Figures~\ref{fig:lsoa-income-pdf-scenarios-1}--\ref{fig:lsoa-income-pdf-scenario
 \label{fig:lsoa-income-pdf-scenarios-3}
 \end{figure}
 
+\subsection{Implemented Baseline-Cost Sensitivity Outputs}
+
+The energy-cost price-structure sensitivity archive adds a second baseline diagnostic: whether current high-burden rankings depend on the cost definition used before price shocks are introduced. The archive compares SAP-inverse required cost, EPC heating plus hot water plus lighting component cost, an exploratory unit-price-only reconstruction, and a unit-plus-standing reconstruction. It is explicitly a baseline-cost sensitivity exercise, not a final household fuel price risk model.
+
+The main result is that baseline cost definition materially affects current exposure rankings. SAP-inverse cost has a median of \pounds 1,045 per year and a mean of \pounds 1,256 per year, while the EPC component total has a median of \pounds 651 per year and a mean of \pounds 805 per year. The median EPC-component-to-SAP-inverse cost ratio is 0.566, and 89.2 percent of properties have an EPC component cost below the SAP-inverse cost. The two measures remain correlated, with Pearson correlation 0.713 and Spearman correlation 0.763, but the top-decile high-burden groups overlap only partially: the Jaccard overlap is 0.351 for the top 10 percent and 0.449 for the top 20 percent.
+
+Figure~\ref{fig:sap-epc-cost-scatter} visualises this divergence. It should be interpreted as a robustness warning about translating EPC/SAP information into required annual cost. The EPC component measure excludes cooking and other services implicit in the SAP-inverse total-cost measure, so the figure does not prove that one metric is universally superior. It shows that the paper's exposure rankings depend partly on the baseline-cost boundary selected before price-shock scenarios are introduced.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{paper/figures/sap_vs_epc_component_cost_scatter.png}
+\caption{SAP-inverse total cost versus EPC heating, hot water, and lighting component cost in the Westminster property-level sample. The scatter shows that alternative translations from EPC/SAP information into required annual cost produce materially different baseline-cost levels and high-burden rankings; the EPC component total excludes cooking and is used here as an exploratory robustness comparator.}
+\label{fig:sap-epc-cost-scatter}
+\end{figure}
+
+The standing-charge decomposition adds a more specific price-structure diagnostic. Under the current reconstruction, adding standing charges raises burden levels modestly but does not materially reorder the highest-burden decile: the median uplift is about 0.0021 burden units, and the top-decile overlap between the unit-price-only and unit-plus-standing burden measures has a Jaccard value of 0.966. Figure~\ref{fig:standing-burden-uplift-property-type} shows that property-type differentiation in this standing-charge uplift is limited in the current run. This should not be read as evidence that standing charges are unimportant. It means that a full price-shock engine should model standing charges, unit rates, off-peak or dual-tariff structures, electricity/gas price ratios, and policy mitigation separately rather than multiplying a single total-cost scalar.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\linewidth]{paper/figures/burden_uplift_from_standing_by_property_type.png}
+\caption{Burden uplift associated with adding the standing-charge component by property type. The figure reports an exploratory decomposition using MSOA point income and SAP 10.2 fuel-price mapping; it indicates modest burden-level uplift and limited property-type differentiation in this run, rather than a full standing-charge shock result.}
+\label{fig:standing-burden-uplift-property-type}
+\end{figure}
+
 \subsection{Implemented High-Risk Explanation Outputs}
 
 The latest high-risk explanation stage adds an audited EPC-enriched stock and a descriptive pathway typology. The enriched master retains 124,980 Westminster property records. After corrected UPRN standardisation, the QA workbook reports a complete match between the master properties and EPC certificate records, with zero unmatched master rows. The corrected EPC tenure proxy distributes the stock into 58,744 private rented properties, 43,686 owner-occupied properties, 20,066 social rented properties, and 2,484 unknown-tenure properties. These tenure categories are analytical proxies and should be interpreted as adaptive-capacity and governance indicators rather than as verified household tenure records.

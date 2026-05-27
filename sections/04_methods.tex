@@ -72,6 +72,22 @@ For robustness, the pipeline also reports a deterministic baseline burden ratio:
 \end{equation}
 where $\bar{Y}_m$ is the MSOA after-housing-cost income point estimate. This measure is easier to interpret as a cost-to-income ratio, but it does not model within-LSOA income dispersion and is not calibrated to the local fuel-poverty comparison.
 
+\subsection{Baseline-Cost and Price-Structure Sensitivity}
+
+The latest sensitivity archive tests whether current burden rankings are stable when required annual energy cost is translated from EPC and SAP information in different ways. This is a methodological diagnostic rather than a new official affordability metric. The baseline model uses the SAP-inverse total cost $C_{p,0}$ described above. The sensitivity run compares this with an EPC component total:
+\begin{equation}
+C^{\mathrm{EPC}}_{p}=C^{\mathrm{heat}}_{p}+C^{\mathrm{hotwater}}_{p}+C^{\mathrm{lighting}}_{p},
+\end{equation}
+where the component fields are taken from the matched EPC certificate and cooking is excluded because a separate cooking-cost field is unavailable in the current EPC extract.
+
+The same archive also reconstructs an exploratory unit-rate and standing-charge decomposition using the SAP 10.2 Table 12 fuel-price mapping. For fuel $f$, approximate service demand is written as:
+\begin{equation}
+\widehat{Q}_{p,f}=\frac{C^{\mathrm{EPC}}_{p}-SC_f}{\pi_f},
+\end{equation}
+with a unit-price-only cost $\pi_f\widehat{Q}_{p,f}$ and a unit-plus-standing cost $\pi_f\widehat{Q}_{p,f}+SC_f$. Because this latter expression equals $C^{\mathrm{EPC}}_{p}$ by construction, the useful comparison is not EPC component versus unit-plus-standing, but unit-price-only versus unit-plus-standing. The sensitivity run uses MSOA after-housing-cost point income for burden ratios, not the full LSOA distributional income engine.
+
+This diagnostic matters for the price-risk model because baseline cost definition is not neutral. In the 124,980-property Westminster sample, SAP-inverse annual cost is higher than the EPC heating, hot water, and lighting total for most properties, and the top-burden groups produced by the two definitions overlap only partially. The implication is not that one measure is self-evidently correct. Rather, the paper should report the canonical burden model while retaining baseline-cost definition as a robustness boundary before introducing future price shocks.
+
 \subsection{EPC Enrichment and High-Risk Pathways}
 
 The latest explanatory layer enriches the Westminster property master with EPC certificate records using UPRN-based linkage. UPRNs are standardised before both merging and QA checks, so that numeric and string representations of the same property identifier do not generate false unmatched cases. Where multiple EPC certificates are available for a property, the selected record is the latest \texttt{LODGEMENT\_DATETIME}; where this is unavailable, the latest \texttt{INSPECTION\_DATE} is used, and remaining ties fall back to the first available row. EPC fields are added with an \texttt{EPC\_} prefix, the original property master is not overwritten, and the row count and row order of the master are preserved.
