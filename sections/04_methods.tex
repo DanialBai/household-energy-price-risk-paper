@@ -218,7 +218,9 @@ and the burden uplift is:
 
 This cost equation is intentionally simple and explicit. It separates the components through which price risk reaches households: gas unit prices, electricity unit prices, heating-oil prices where relevant, fixed standing charges, fuel connections, and policy mitigation. That separation is necessary because different interventions act on different terms. Fabric retrofit reduces required quantities; heat pumps change the gas-electricity mix; PV and batteries reduce grid electricity imports under some profiles; tariff reform changes prices or standing charges; and public support enters as mitigation. A more compact total-bill equation would obscure these mechanisms and make it harder to explain why an intervention protects one group but not another.
 
-The implemented v1 shock-result figures use Direct Debit as the central payment-method track and focus on S3, S4, and S6 Q3, with S0 and S2 retained as scenario-profile anchors. The mechanism heatmaps, archetype ranking, and group-level response profiles are computed from the shock event summary with property-count weights. The spatial concentration figure is computed from the LSOA event summary and mapped only for the 123 LSOAs covered by the current Westminster boundary file. These outputs should be interpreted as the first price-shock result layer: they estimate burden uplift and threshold-crossing risk under specified tariff scenarios, but they do not yet add formal Household Fuel Price-at-Risk, affordability gap-at-risk, or intervention de-risking dividend calculations.
+The implemented v1 shock-result figures use Direct Debit as the central payment-method track and focus on S3, S4, and S6 Q3, with S0 and S2 retained as scenario-profile anchors. The mechanism heatmaps, archetype ranking, and group-level response profiles are computed from the shock event summary with property-count weights. The spatial concentration figure is computed from the LSOA event summary and mapped only for the 123 LSOAs covered by the current Westminster boundary file. These outputs are interpreted as the first price-shock result layer: they estimate burden uplift and threshold-crossing risk under specified tariff scenarios.
+
+Risk Metric Layer v1 then turns those scenario-specific results into a named household fuel price risk framework. The main scenario set for risk metrics is $S^{R}=\{\mathrm{S2},\mathrm{S3},\mathrm{S6\ Q3}\}$ under Direct Debit. S0 is retained as the baseline reference, S4 as the policy-mitigation comparison against S3, and S1 as a milder price-change sensitivity. The primary manuscript indicator is Fuel Price-at-Risk P90, denoted \texttt{FPaR\_P90}; the sensitivity tail indicator is \texttt{FPaR\_P95}; and the monetary policy-interpretation indicator is \texttt{AGaR\_P90}. These fields are required-energy risk metrics. They are not observed bills, not official fuel-poverty statistics, and not estimates of intervention protection.
 
 The main risk indicators are defined as distributional rather than average outcomes. The scenario-specific threshold-crossing probability is:
 \begin{equation}
@@ -232,14 +234,19 @@ An affordability gap-at-risk can be expressed as the expected shortfall above an
 \begin{equation}
 G_{p,s}(\tau)=\operatorname{E}_{Y_l}\left[\max\{C_{p,s}-\tau Y_l,0\}\right].
 \end{equation}
-Household Fuel Price-at-Risk is defined as a high quantile of the scenario burden distribution:
+Fuel Price-at-Risk is defined as a high quantile of the scenario burden distribution:
 \begin{equation}
-\operatorname{HFPaR}_{p,\alpha}
+\operatorname{FPaR}_{p,\alpha}
 =\inf \left\{b:\sum_{s \in S}\omega_s \mathbf{1}\left(B_{p,s}\leq b\right)\geq \alpha \right\},
 \end{equation}
 where $\alpha$ may be set to a policy-relevant upper-tail level such as 0.90 or 0.95. These metrics keep fuel poverty, energy burden, and fuel price risk analytically separate: the first concerns current hardship, the second is a cost-to-income ratio, and the third measures future exposure and sensitivity under price shocks.
 
-The three risk metrics have different policy uses. Threshold-crossing probabilities show how many property-income combinations are likely to move beyond an affordability boundary. Gap-at-risk reports the monetary depth of exposure above that boundary, which matters for bill support or social tariff design. Household Fuel Price-at-Risk focuses on the upper tail of the scenario burden distribution, which is the relevant object when the policy concern is protection against shocks rather than average annual affordability. Reporting all three avoids a false choice between headcount, severity, and tail-risk interpretations.
+Affordability Gap-at-Risk is the corresponding upper-tail monetary shortfall:
+\begin{equation}
+\operatorname{AGaR}_{p,\alpha}(\tau)
+=Q_{\alpha}\left(\left\{\max(C_{p,s}-\tau Y_l,0)\right\}_{s\in S^{R}}\right),
+\end{equation}
+with $\tau=0.10$ in the implemented risk layer. The three risk metrics have different policy uses. Threshold-crossing probabilities show how many property-income combinations are likely to move beyond an affordability boundary. Gap-at-risk reports the monetary depth of exposure above that boundary, which matters for bill support or social tariff design. Fuel Price-at-Risk focuses on the upper tail of the scenario burden distribution, which is the relevant object when the policy concern is protection against shocks rather than average annual affordability. Reporting all three avoids a false choice between headcount, severity, and tail-risk interpretations.
 
 \subsection{Intervention Counterfactuals}
 
@@ -256,15 +263,15 @@ The intervention-specific threshold risk and Fuel Price-at-Risk are:
 \begin{equation}
 P_{p,s,k}(\tau)=F_l\left(\frac{C_{p,s,k}}{\tau}\right),
 \qquad
-\operatorname{HFPaR}_{p,\alpha,k}
+\operatorname{FPaR}_{p,\alpha,k}
 =Q_{\alpha}\left(\{B_{p,s,k}\}_{s \in S}\right).
 \end{equation}
 The de-risking dividend is the reduction in upper-tail burden risk:
 \begin{equation}
 D_{p,\alpha,k}=
-\operatorname{HFPaR}_{p,\alpha,0}
+\operatorname{FPaR}_{p,\alpha,0}
 -
-\operatorname{HFPaR}_{p,\alpha,k}.
+\operatorname{FPaR}_{p,\alpha,k}.
 \end{equation}
 Results will be stratified by income distribution, EPC rating, dwelling form, heating system, tenure, leasehold and heritage constraints, and LSOA/MSOA location. The empirical question is therefore not whether a low-carbon measure reduces emissions in engineering terms, but who receives measurable price-risk protection once required demand, tariffs, fuel-market pass-through, and local governance constraints are jointly considered.
 
