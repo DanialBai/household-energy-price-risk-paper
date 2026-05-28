@@ -119,7 +119,7 @@ The strongest descriptive signal in the current outputs is the interaction betwe
 \setlength{\tabcolsep}{3pt}
 \caption{Current high-risk pathway typology from the latest explanatory run}
 \label{tab:high-risk-pathways}
-\begin{tabular}{p{0.36\linewidth}rrrr}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.36\linewidth}rrrr}
 \toprule
 Pathway & Properties & Stock & HR10 & HR10 contrib. \\
 \midrule
@@ -176,13 +176,53 @@ The official price-spine construction adds the price input layer for the next em
 
 Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6} are therefore promoted as method figures. Figure~\ref{fig:official-price-spine-timeline} documents the temporal architecture of S0--S6; Figure~\ref{fig:official-price-spine-unit-rates} shows the unit-rate progression and the S3/S4 policy-buffering contrast; Figure~\ref{fig:official-price-spine-decomposition} keeps unit-rate and standing-charge exposure visible; and Figure~\ref{fig:official-price-spine-s6} identifies the fixed-cost sensitivity that should be interpreted with the documented Q3 proxy caveat. Together, these figures support the scenario engine that will generate burden uplift, threshold crossing, Fuel Price-at-Risk, and de-risking dividends in the next modelling layer.
 
-\subsection{Risk and Intervention Outputs}
+\subsection{Implemented Price-Shock Result Outputs}
 
-The next empirical layer will convert the baseline engine into price-shock outputs. These will include LSOA/MSOA maps, property-archetype summaries, distributional plots, and threshold-crossing estimates under gas-price, electricity-price, combined-fuel, heating-oil, standing-charge, and policy-mitigation scenarios. The paper will report not only average burden changes, but also upper-tail risk, burden uplift, and the probability that households cross policy-relevant burden thresholds.
+The first price-shock result layer now converts the baseline engine and official price spine into paper-facing evidence on burden uplift and threshold-crossing risk. These outputs use Direct Debit as the central payment-method track and treat Standard Credit and Prepayment as sensitivity tracks until observed household payment-method data are available. The main results focus on S3, S4, and S6 Q3, with S0 and S2 retained as scenario-profile anchors. They should be read as price-shock results, not yet as intervention results: formal Household Fuel Price-at-Risk, affordability gap-at-risk, and de-risking dividend calculations remain the next modelling layer.
 
-The scenario engine should use the baseline extract's applicability fields rather than joining every property to every price scenario. Gas and electricity properties enter S0--S4 and S6 with Direct Debit, Standard Credit, and Prepayment sensitivity labels; oil properties enter only the S5 heating-oil sensitivity. Payment method should remain a scenario dimension unless observed household payment data are added later. This prevents the results from overstating precision or misclassifying oil-heated properties as if they were regulated mains-gas or mains-electricity tariff-cap cases.
+Figure~\ref{fig:shock-mechanism-heatmaps} establishes the structural mechanism of exposure under the S3 unmitigated shock. Gas-heated E--G dwellings have a weighted mean required-energy burden uplift of about 10.0 percentage points, compared with about 2.8 percentage points for electricity-heated A--C dwellings. The dwelling-form panel shows a further amplification: E--G houses reach about 12.6 percentage points, while E--G flats are closer to 7.0 percentage points. The result is not simply that inefficient homes are expensive; it is that fuel, fabric, and dwelling form jointly shape price sensitivity.
 
-A central output is the de-risking dividend:
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/fuel_price_shock_mechanism_heatmaps.png}
+\caption{Weighted mean required-energy burden uplift under the S3 unmitigated price shock, by Westminster dwelling and household-dwelling characteristics. Values are percentage-point changes relative to S0, using Direct Debit as the central payment-method track.}
+\label{fig:shock-mechanism-heatmaps}
+\end{figure}
+
+Figure~\ref{fig:shock-top-archetypes} then identifies the most exposed household-dwelling archetypes. The highest S3 burden-uplift groups are dominated by gas-heated houses and maisonettes with weak EPC performance. Owner-occupied houses in EPC E--G with gas heating have an average burden uplift of about 13.9 percentage points and a threshold-crossing probability of about 86.7\%; private rented houses in EPC E--G with gas heating follow at about 11.8 percentage points and 81.4\%. The ranking therefore moves the paper beyond generic statements about vulnerable households: exposure is concentrated in specific tenure--dwelling--fabric--fuel combinations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/fuel_price_shock_top_archetype_ranking.png}
+\caption{Top Westminster household-dwelling archetypes ranked by S3 required-energy burden uplift, with corresponding S3 threshold-crossing risk and policy-mitigated residual exposure under S4. Archetypes are included where the weighted summary contains at least 100 records.}
+\label{fig:shock-top-archetypes}
+\end{figure}
+
+Figure~\ref{fig:shock-scenario-profiles} shows how scenario design changes group-level risk. S3 creates a clear risk peak across EPC, fuel, and tenure groups; S4 reduces this exposure through the Energy Price Guarantee; and S6 Q3 leaves a residual fixed-cost and tariff-structure sensitivity. For EPC E--G dwellings, the threshold-crossing probability is about 66.0\% under S3, 51.4\% under S4, and 40.2\% under S6 Q3. The profile supports the paper's distinction between market exposure and policy buffering: mitigation lowers risk but does not remove the underlying inequality in exposure.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/fuel_price_shock_scenario_response_profiles.png}
+\caption{Threshold-crossing probability across S0, S2, S3, S4, and S6 Q3, showing how unmitigated shocks, policy mitigation, and tariff-structure sensitivity reshape group-level household fuel price risk.}
+\label{fig:shock-scenario-profiles}
+\end{figure}
+
+Finally, Figure~\ref{fig:shock-spatial-distribution} shows that the price-shock burden is spatially concentrated within Westminster. The highest S3 threshold-crossing probabilities in the mapped LSOAs are around 70--76\%, while the diagnostic scatter shows that baseline threshold risk and S3 burden uplift are related but not identical. This spatial result should be interpreted as required-energy price-risk concentration, not as a direct map of observed current fuel poverty. The map uses the 123 LSOAs available in the current GIS boundary file; the three unmatched result LSOAs are retained in non-spatial summaries but omitted from the mapped panels.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/fuel_price_shock_spatial_distribution.png}
+\caption{Spatial concentration of S3 household fuel price risk across Westminster LSOAs. The maps show threshold-crossing probability and required-energy burden uplift; the scatter compares baseline threshold risk with S3 burden uplift.}
+\label{fig:shock-spatial-distribution}
+\end{figure}
+
+\subsection{Planned Intervention Outputs}
+
+The next empirical layer will estimate intervention-specific protection against the implemented price-shock results. It will compare fabric retrofit, clean heat, PV, battery storage, smart tariffs, and integrated packages under explicit assumptions about technical feasibility, tenure and leasehold governance, roof access, tariff access, electricity/gas price ratios, and policy support. The paper will report not only average burden changes, but also upper-tail risk, burden uplift, threshold-crossing probabilities, and the probability that households remain above policy-relevant burden thresholds after intervention.
+
+The scenario engine should continue to use the baseline extract's applicability fields rather than joining every property to every price scenario. Gas and electricity properties enter S0--S4 and S6 with Direct Debit, Standard Credit, and Prepayment sensitivity labels; oil properties enter only the S5 heating-oil sensitivity. Payment method should remain a scenario dimension unless observed household payment data are added later. This prevents the results from overstating precision or misclassifying oil-heated properties as if they were regulated mains-gas or mains-electricity tariff-cap cases.
+
+A central planned output is the de-risking dividend:
 \begin{equation}
 \text{De-risking dividend} = \text{Fuel Price-at-Risk}_{\text{before}} - \text{Fuel Price-at-Risk}_{\text{after}}.
 \end{equation}
@@ -190,7 +230,7 @@ This metric will be estimated by intervention package and household-dwelling con
 
 \subsection{Figures and Tables}
 
-Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, payment method, and LSOA/MSOA. The baseline extract figures now promoted into the manuscript are Figures~\ref{fig:baseline-burden-distribution}--\ref{fig:baseline-high-burden-main-fuel}; the current high-risk explanation figures are Figures~\ref{fig:hr-br-overlap}--\ref{fig:spatial-high-risk}; and the official price-spine figures are Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6}. Remaining expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; distributional plots of shock-induced burden uplift; intervention de-risking comparisons; and maps of de-risking gaps.
+Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, payment method, and LSOA/MSOA. The baseline extract figures now promoted into the manuscript are Figures~\ref{fig:baseline-burden-distribution}--\ref{fig:baseline-high-burden-main-fuel}; the current high-risk explanation figures are Figures~\ref{fig:hr-br-overlap}--\ref{fig:spatial-high-risk}; the official price-spine figures are Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6}; and the first price-shock result figures are Figures~\ref{fig:shock-mechanism-heatmaps}--\ref{fig:shock-spatial-distribution}. Remaining expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; intervention de-risking comparisons; and maps of de-risking gaps.
 
 Before intervention results are reported, the spatial outputs should establish whether different mechanisms concentrate in different parts of Westminster. Priority maps include LSOA HR10 share, LSOA HR20 share, dominant HR10 pathway, social rented estate/block concentration, electric-heated inefficient flat concentration, and residual high-risk concentration. These maps would support the paper's claim that fuel price risk is produced by locally specific combinations of housing form, income sensitivity, and governance constraints rather than by a uniform borough-wide condition.
 
