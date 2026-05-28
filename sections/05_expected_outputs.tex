@@ -8,6 +8,40 @@ The current outputs support three baseline products. First, the model estimates 
 
 Second, the model produces property-level SAP-derived required energy cost and the probability that required energy burden exceeds a 10 percent threshold. This output should be interpreted as baseline required-energy affordability exposure, not as a complete household fuel price risk measure. It provides the denominator and cost foundation for later shock scenarios, while avoiding dependence on actual expenditure that may be suppressed by underheating or self-rationing.
 
+The 2026-05-28 baseline extract turns this layer into a fixed shock-engine input. The extract reports a median SAP-inverse required energy cost of approximately \pounds 1,045 per year, a median EPC component cost of approximately \pounds 651 per year, and a median deterministic baseline required energy burden of 0.0239 under the MSOA point-income denominator. Figure~\ref{fig:baseline-burden-distribution} shows the corresponding deterministic burden distribution. Only 0.6 percent of properties exceed the 10 percent burden threshold under this point-income measure, which is why the deterministic ratio should not be treated as the whole exposure story.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_required_energy_burden_distribution.png}
+\caption{Baseline required energy burden distribution for Westminster properties, using SAP-inverse required energy cost divided by MSOA disposable income. The figure shows the current-price point-income burden metric; it is a baseline affordability measure, not a future fuel-price-shock result.}
+\label{fig:baseline-burden-distribution}
+\end{figure}
+
+Figure~\ref{fig:burden-prob-distribution} reports the distributional counterpart: the probability that required energy burden exceeds 10 percent when local LSOA income distributions are used. Its median is 0.0525, and the top-decile threshold used for the HR\_TOP10 burden-probability group is 0.311. The contrast between Figures~\ref{fig:baseline-burden-distribution} and \ref{fig:burden-prob-distribution} is substantively important. It shows why Westminster exposure cannot be inferred from a single area-income point estimate: the point burden is usually low, while the income-tail probability has a much wider distribution.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_burden_probability_distribution.png}
+\caption{Distribution of the baseline burden-probability metric, \texttt{burden\_prob\_gt\_10}. The metric uses constrained LSOA lognormal income distributions to estimate the probability that required energy burden exceeds 10 percent. It identifies current income-tail exposure and does not yet include price-shock scenarios.}
+\label{fig:burden-prob-distribution}
+\end{figure}
+
+The extract also clarifies the housing and fuel composition of the current high-burden tail. Figure~\ref{fig:baseline-high-burden-property-type} shows that flats dominate Westminster's overall stock, but houses and maisonettes are overrepresented in high-burden groups relative to their stock share. Figure~\ref{fig:baseline-high-burden-main-fuel} shows that gas dominates all groups because it dominates the stock, while electricity's share rises slightly in the HR groups. These figures support a layered interpretation: current burden exposure is produced by stock composition, property type, required demand, income distribution, and fuel exposure together, not by one variable alone.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/baseline_high_burden_by_property_type.png}
+\caption{Composition of baseline high-burden groups by property type. HR groups are based on \texttt{burden\_prob\_gt\_10}; BR groups are based on deterministic baseline required energy burden using MSOA point income.}
+\label{fig:baseline-high-burden-property-type}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{paper/figures/baseline_high_burden_by_main_fuel.png}
+\caption{Composition of baseline high-burden groups by main fuel. The figure shows gas dominance in the stock and a modest overrepresentation of electricity in the HR groups; it motivates fuel-specific price-shock modelling rather than claims about completed fuel price risk.}
+\label{fig:baseline-high-burden-main-fuel}
+\end{figure}
+
 Third, the baseline module generates a modelled LSOA fuel-poverty comparison used for calibration diagnostics. The latest sensitivity run has a mean modelled-minus-official LSOA fuel-poverty-rate error of -0.0174 and a worst absolute error of 0.133 under the central income-anchor scenario. Weighted MSOA-level RMSE is similar across the central, upper-confidence-limit, and lower-confidence-limit scenarios, with means of 0.04944, 0.05022, and 0.04821 respectively. This residual gap is substantively useful rather than merely technical: it shows that income-tail matching alone does not reproduce official fuel-poverty geography, reinforcing the paper's distinction between income deprivation, required energy burden, dwelling fabric, heating systems, tenure, and future price risk.
 
 Figures~\ref{fig:lsoa-income-pdf-scenarios-1}--\ref{fig:lsoa-income-pdf-scenarios-3} report the promoted LSOA income PDF scenario panels from the May 2026 read-only sensitivity run. They should be read as sensitivity diagnostics for the synthetic income layer. The solid, dashed, and dotted curves compare central, upper-confidence-limit, and lower-confidence-limit MSOA income anchors while holding the lower-tail constraint and required-energy-cost logic fixed. The red vertical marker is the \pounds 19{,}009 income-tail threshold used in the current module. These figures therefore support the baseline burden model by showing how local lower-tail assumptions vary across LSOAs and MSOAs; they do not yet measure future household fuel price risk.
@@ -146,6 +180,8 @@ Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s
 
 The next empirical layer will convert the baseline engine into price-shock outputs. These will include LSOA/MSOA maps, property-archetype summaries, distributional plots, and threshold-crossing estimates under gas-price, electricity-price, combined-fuel, heating-oil, standing-charge, and policy-mitigation scenarios. The paper will report not only average burden changes, but also upper-tail risk, burden uplift, and the probability that households cross policy-relevant burden thresholds.
 
+The scenario engine should use the baseline extract's applicability fields rather than joining every property to every price scenario. Gas and electricity properties enter S0--S4 and S6 with Direct Debit, Standard Credit, and Prepayment sensitivity labels; oil properties enter only the S5 heating-oil sensitivity. Payment method should remain a scenario dimension unless observed household payment data are added later. This prevents the results from overstating precision or misclassifying oil-heated properties as if they were regulated mains-gas or mains-electricity tariff-cap cases.
+
 A central output is the de-risking dividend:
 \begin{equation}
 \text{De-risking dividend} = \text{Fuel Price-at-Risk}_{\text{before}} - \text{Fuel Price-at-Risk}_{\text{after}}.
@@ -154,7 +190,7 @@ This metric will be estimated by intervention package and household-dwelling con
 
 \subsection{Figures and Tables}
 
-Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, payment method, and LSOA/MSOA. The current high-risk explanation figures already promoted into the manuscript are Figures~\ref{fig:hr-br-overlap}--\ref{fig:spatial-high-risk}; the official price-spine figures are Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6}. Remaining expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; distributional plots of shock-induced burden uplift; intervention de-risking comparisons; and maps of de-risking gaps.
+Expected tables will summarise baseline burden probabilities, modelled fuel-poverty diagnostics, price-shock burden uplift, Fuel Price-at-Risk, and intervention-specific de-risking dividends by income group, EPC rating, dwelling form, heating system, tenure, payment method, and LSOA/MSOA. The baseline extract figures now promoted into the manuscript are Figures~\ref{fig:baseline-burden-distribution}--\ref{fig:baseline-high-burden-main-fuel}; the current high-risk explanation figures are Figures~\ref{fig:hr-br-overlap}--\ref{fig:spatial-high-risk}; and the official price-spine figures are Figures~\ref{fig:official-price-spine-timeline}--\ref{fig:official-price-spine-s6}. Remaining expected figures will include: the conceptual distinction between fuel poverty, energy burden, and household fuel price risk; distributional plots of shock-induced burden uplift; intervention de-risking comparisons; and maps of de-risking gaps.
 
 Before intervention results are reported, the spatial outputs should establish whether different mechanisms concentrate in different parts of Westminster. Priority maps include LSOA HR10 share, LSOA HR20 share, dominant HR10 pathway, social rented estate/block concentration, electric-heated inefficient flat concentration, and residual high-risk concentration. These maps would support the paper's claim that fuel price risk is produced by locally specific combinations of housing form, income sensitivity, and governance constraints rather than by a uniform borough-wide condition.
 

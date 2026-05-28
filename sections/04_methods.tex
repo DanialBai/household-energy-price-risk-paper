@@ -60,7 +60,13 @@ The current module therefore estimates burden-threshold probabilities:
 P_{p,0}(\tau)=\Pr \left(B_{p,0}(Y_l)>\tau \right)
 =F_l\left(\frac{C_{p,0}}{\tau}\right).
 \end{equation}
-The implemented baseline output uses $\tau=0.10$. For modelled LSOA fuel-poverty comparison, properties with SAP grades A, B, or C are assigned a property poverty score of zero; other properties use $P_{p,0}(0.10)$. This score is a baseline affordability input, not a complete measure of household fuel price risk.
+The implemented baseline output uses $\tau=0.10$. The 2026-05-28 extract stores the three corresponding fields explicitly:
+\begin{description}[leftmargin=0.33\linewidth,style=nextline]
+    \item[\texttt{sap\_inverse\_total\_cost}] SAP-inverse required energy cost, equivalent to $C_{p,0}$.
+    \item[\texttt{baseline\_required\_energy\_burden}] deterministic MSOA point-income burden.
+    \item[\texttt{burden\_prob\_gt\_10}] LSOA income-distribution probability that burden exceeds 10 percent.
+\end{description}
+For modelled LSOA fuel-poverty comparison, properties with SAP grades A, B, or C are assigned a property poverty score of zero; other properties use $P_{p,0}(0.10)$. This score is a baseline affordability input, not a complete measure of household fuel price risk.
 
 The threshold probability is useful because it reports exposure to a policy-relevant affordability boundary without claiming that the boundary is the whole concept of fuel poverty. It also avoids reducing Westminster's mixed-income geography to area averages. A property can have moderate deterministic burden under the MSOA mean but still have a substantial probability of high burden for households in the local lower tail. Conversely, a property with high required cost may be less probabilistically exposed if local residual incomes are high. This distinction is central to the paper's question because price shocks will interact with both required demand and income sensitivity.
 
@@ -87,6 +93,8 @@ The same archive also reconstructs an exploratory unit-rate and standing-charge 
 with a unit-price-only cost $\pi_f\widehat{Q}_{p,f}$ and a unit-plus-standing cost $\pi_f\widehat{Q}_{p,f}+SC_f$. Because this latter expression equals $C^{\mathrm{EPC}}_{p}$ by construction, the useful comparison is not EPC component versus unit-plus-standing, but unit-price-only versus unit-plus-standing. The sensitivity run uses MSOA after-housing-cost point income for burden ratios, not the full LSOA distributional income engine.
 
 This diagnostic matters for the price-risk model because baseline cost definition is not neutral. In the 124,980-property Westminster sample, SAP-inverse annual cost is higher than the EPC heating, hot water, and lighting total for most properties, and the top-burden groups produced by the two definitions overlap only partially. The implication is not that one measure is self-evidently correct. Rather, the paper should report the canonical burden model while retaining baseline-cost definition as a robustness boundary before introducing future price shocks.
+
+The 2026-05-28 extract resolves this boundary for the next modelling step. SAP-inverse cost remains the canonical baseline burden metric because it represents broader required domestic energy services. EPC component cost is retained as the price-revaluable bridge because heating, hot water, and lighting can be translated into implied service demand and repriced under alternative fuel-price scenarios. The bridge is therefore a sensitivity estimate of burden uplift, not a full household bill. This separation prevents the shock engine from treating a lower EPC component total as if it were the complete current cost of household energy services.
 
 \subsection{Official Fuel-Price Scenario Spine}
 
@@ -159,6 +167,25 @@ S5 is applied only to dwellings with heating-oil or off-gas exposure, because he
 \end{figure}
 
 The latest imported price-spine QA summary reports no failed checks and two warning-level limitations attached to the S6 Q3 proxy inputs. These warnings do not prevent S6 from being used as a sensitivity scenario, but they do constrain interpretation. In the manuscript, the scenario should therefore be described as a test of fixed-cost exposure under current tariff-structure change, not as a definitive prediction of future London household prices.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Fuel-specific scenario applicability in the baseline extract}
+\label{tab:scenario-applicability}
+\begin{tabular}{p{0.18\linewidth}rrp{0.42\linewidth}}
+\toprule
+Main fuel & Properties & Share & Scenario applicability \\
+\midrule
+Gas & 102,958 & 82.4\% & Full domestic tariff-cap spine: S0--S4 and S6; Direct Debit, Standard Credit, and Prepayment sensitivity scenarios \\
+Electricity & 21,520 & 17.2\% & Full domestic tariff-cap spine: S0--S4 and S6; Direct Debit, Standard Credit, and Prepayment sensitivity scenarios; off-peak tariffs not split in this extract \\
+Oil & 502 & 0.4\% & Heating-oil S5 sensitivity only; no payment-method split and no join to gas/electricity cap scenarios \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:scenario-applicability} is used as a guardrail for the shock engine. Fuel mapping and scenario coverage are not identical: all properties have a valid main-fuel mapping, but only gas and electricity properties are covered by the domestic tariff-cap scenarios. Oil properties are valid records, yet their price exposure is modelled through the separate heating-oil scenario.
 
 \subsection{EPC Enrichment and High-Risk Pathways}
 
